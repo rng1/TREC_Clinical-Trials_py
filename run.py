@@ -3,6 +3,7 @@ from transformers import AutoTokenizer
 from numpy import linalg as LA
 
 import torch
+import numpy as np
 
 from embeddings import get_trial_embeddings, get_topic_embeddings
 from filter import FilterTrials
@@ -32,4 +33,4 @@ if __name__ == "__main__":
     trials_norm = LA.norm(trials, axis=1).reshape(1, -1)
     topic_trial_dot_product = topics@trials.T
     cosine_similarity = topic_trial_dot_product / (topics_norm * trials_norm)
-
+    sorted_indices = np.argsort(cosine_similarity, axis=1)[:, ::-1]
