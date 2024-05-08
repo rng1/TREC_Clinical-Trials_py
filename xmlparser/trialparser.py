@@ -8,7 +8,7 @@ from data import Trial
 
 
 class TrialParser:
-    CSV_PATH = "C:/Users/rnara/Desktop/TFG/[python] TREC_Clinical-Trials/trials.csv"
+    CSV_PATH = "C:/Users/rnara/Desktop/TFG/[py] TREC_Clinical-Trials/trials.csv"
     DATA_PATH = "C:/Users/rnara/Desktop/TFG/data/trials"
 
     def __init__(self):

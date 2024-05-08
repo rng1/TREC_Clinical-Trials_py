@@ -10,7 +10,7 @@ class TopicParser:
     Get the topic data.
     If the CSV file is not found, the topics are parsed from the XML file and embeddings are generated.
     """
-    CSV_PATH = "C:/Users/rnara/Desktop/TFG/[python] TREC_Clinical-Trials/topics.csv"
+    CSV_PATH = "C:/Users/rnara/Desktop/TFG/[py] TREC_Clinical-Trials/topics.csv"
     XML_PATH = "C:/Users/rnara/Desktop/TFG/data/topics2022.xml"
 
     def __init__(self):
