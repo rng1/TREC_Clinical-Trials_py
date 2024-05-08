@@ -1,5 +1,6 @@
 from adapters import AutoAdapterModel
 from transformers import AutoTokenizer
+from numpy import linalg as LA
 
 import torch
 
@@ -27,9 +28,8 @@ if __name__ == "__main__":
 
     topics = topic_embeddings.iloc[:, 1:].values
     trials = trial_embeddings.iloc[:, 1:].values
-    res = topics@trials.T
-
-    print(topics.shape)
-    print(trials.shape)
-    print(res.shape)
+    topics_norm = LA.norm(topics, axis=1).reshape(-1, 1)
+    trials_norm = LA.norm(trials, axis=1).reshape(1, -1)
+    topic_trial_dot_product = topics@trials.T
+    cosine_similarity = topic_trial_dot_product / (topics_norm * trials_norm)
 

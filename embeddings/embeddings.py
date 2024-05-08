@@ -4,8 +4,8 @@ import pandas as pd
 import torch
 from torch import nn
 
-TRIAL_CSV_PATH = "C:/Users/rnara/Desktop/TFG/[python] TREC_Clinical-Trials/trial_embeddings.csv"
-TOPIC_CSV_PATH = "C:/Users/rnara/Desktop/TFG/[python] TREC_Clinical-Trials/topic_embeddings.csv"
+TRIAL_CSV_PATH = "C:/Users/rnara/Desktop/TFG/[py] TREC_Clinical-Trials/trial_embeddings.csv"
+TOPIC_CSV_PATH = "C:/Users/rnara/Desktop/TFG/[py] TREC_Clinical-Trials/topic_embeddings.csv"
 
 
 def get_embeddings(tokenizer, model: nn.Module, text: str) -> torch.Tensor:
