@@ -11,6 +11,16 @@ from xmlparser import TopicParser
 from xmlparser import TrialParser
 
 
+def create_trec_eval_file(ranking_scores, ranking_ids, run_name):
+    ranking_ids = ranking_ids.to_numpy()
+
+    with open(f'trec_eval_{run_name.lower()}.txt', 'w') as f:
+        for i in range(ranking_scores.shape[0]):
+            for j in range(ranking_scores.shape[1]):
+                line = f"{i + 1} Q0 {ranking_ids[i][j].upper()} {j + 1} {ranking_scores[i][j]} {run_name.upper()}\n"
+                f.write(line)
+
+
 def map_index_to_id(index):
     return trial_ids[index]
 
@@ -47,7 +57,7 @@ if __name__ == "__main__":
     unfiltered_ranking = vfunc(capped_indices)
 
     # Filtered ranking
-    sorted_capped_idx = np.zeros((50, 1000), dtype=int)
+    sorted_capped_indices = np.zeros((50, 1000), dtype=int)
     threshold = 1000
     trial_id_to_index = {id: index for index, id in enumerate(trial_csv['nct_id'])}
     filtered_idx = {topic: [trial_id_to_index[id] for id in ids] for topic, ids in filtered_dict.items()}
@@ -55,6 +65,15 @@ if __name__ == "__main__":
     for i in range(sorted_indices.shape[0]):
         mask = np.isin(sorted_indices[i], filtered_idx[i+1])
         filtered_row = np.pad(sorted_indices[i][mask], (0, threshold), mode='constant', constant_values=-1)[:threshold]
-        sorted_capped_idx[i] = filtered_row
+        sorted_capped_indices[i] = filtered_row
 
-    filtered_ranking = vfunc(sorted_capped_idx)
+    filtered_ranking = vfunc(sorted_capped_indices)
+
+    # Get the ranking scores
+    row_indices = np.arange(cosine_similarity.shape[0])[:, None]
+    unfiltered_ranking_scores = cosine_similarity[row_indices, capped_indices]
+    filtered_ranking_scores = cosine_similarity[row_indices, sorted_capped_indices]
+
+    # Create the trec_eval files
+    create_trec_eval_file(unfiltered_ranking_scores, unfiltered_ranking, "unfiltered")
+    create_trec_eval_file(filtered_ranking_scores, filtered_ranking, "filtered")
