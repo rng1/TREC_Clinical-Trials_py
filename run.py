@@ -14,7 +14,7 @@ from xmlparser import TrialParser
 def create_trec_eval_file(ranking_scores, ranking_ids, run_name):
     ranking_ids = ranking_ids.to_numpy()
 
-    with open(f'trec_eval_{run_name.lower()}.txt', 'w') as f:
+    with open(f'py_trec_eval_{run_name.lower()}.txt', 'w') as f:
         for i in range(ranking_scores.shape[0]):
             for j in range(ranking_scores.shape[1]):
                 line = f"{i + 1} Q0 {ranking_ids[i][j].upper()} {j + 1} {ranking_scores[i][j]} {run_name.upper()}\n"
